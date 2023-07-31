@@ -1,0 +1,126 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class ArrayStuff {
+    private static final int ARRAY_LENGTH = 100;
+    private static Random rnd = new Random();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int[] dataPoints = new int[ARRAY_LENGTH];
+
+
+        for (int i = 0; i < dataPoints.length; i++) {
+            dataPoints[i] = rnd.nextInt(100) + 1;
+        }
+
+
+        displayArray(dataPoints);
+
+
+        int sum = calculateSum(dataPoints);
+        double average = calculateAverage(dataPoints);
+        System.out.println("The sum of the random array dataPoints is: " + sum);
+        System.out.printf("The average of the random array dataPoints is: %.2f%n", average);
+
+
+        int userValue = getRangedInt("Enter a value between 1 and 100: ", 1, 100);
+        int occurrences = countOccurrences(dataPoints, userValue);
+        System.out.println("The user value is found " + occurrences + " time(s) in the dataPoints array.");
+
+        int position = findPosition(dataPoints, userValue);
+        if (position != -1) {
+            System.out.println("The value " + userValue + " was found at array index " + position);
+        } else {
+            System.out.println("The value " + userValue + " was not found in the array.");
+        }
+
+
+        int min = findMinimum(dataPoints);
+        int max = findMaximum(dataPoints);
+        System.out.println("Minimum value in dataPoints: " + min);
+        System.out.println("Maximum value in dataPoints: " + max);
+
+
+        System.out.println("Average of dataPoints is: " + getAverage(dataPoints));
+    }
+
+    private static void displayArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) {
+                System.out.print(" | ");
+            }
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+    }
+
+    private static int calculateSum(int[] arr) {
+        int sum = 0;
+        for (int value : arr) {
+            sum += value;
+        }
+        return sum;
+    }
+
+    private static double calculateAverage(int[] arr) {
+        return (double) calculateSum(arr) / arr.length;
+    }
+
+    private static int countOccurrences(int[] arr, int target) {
+        int count = 0;
+        for (int value : arr) {
+            if (value == target) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static int findPosition(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static int findMinimum(int[] arr) {
+        int min = arr[0];
+        for (int value : arr) {
+            if (value < min) {
+                min = value;
+            }
+        }
+        return min;
+    }
+
+    private static int findMaximum(int[] arr) {
+        int max = arr[0];
+        for (int value : arr) {
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
+    }
+
+    private static double getAverage(int[] arr) {
+        return (double) calculateSum(arr) / arr.length;
+    }
+
+    private static int getRangedInt(String prompt, int min, int max) {
+        int input;
+        do {
+            System.out.print(prompt);
+            while (!scanner.hasNextInt()) {
+                System.out.print("Invalid input. " + prompt);
+                scanner.next();
+            }
+            input = scanner.nextInt();
+            scanner.nextLine();
+        } while (input < min || input > max);
+        return input;
+    }
+}
